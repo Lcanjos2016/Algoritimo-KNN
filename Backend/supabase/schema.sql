@@ -7,6 +7,7 @@ create table if not exists public.profiles (
 
 create table if not exists public.movies (
   id bigint generated always as identity primary key,
+  tmdb_id bigint unique,
   title text not null,
   genre text not null,
   year integer not null,
@@ -14,6 +15,9 @@ create table if not exists public.movies (
   image text not null,
   created_at timestamptz not null default now()
 );
+
+alter table public.movies
+add column if not exists tmdb_id bigint unique;
 
 create table if not exists public.ratings (
   id bigint generated always as identity primary key,
@@ -61,6 +65,17 @@ alter table public.movies enable row level security;
 alter table public.ratings enable row level security;
 alter table public.favorites enable row level security;
 
+drop policy if exists "profiles_select_own" on public.profiles;
+drop policy if exists "profiles_update_own" on public.profiles;
+drop policy if exists "movies_select_all" on public.movies;
+drop policy if exists "ratings_select_all_authenticated" on public.ratings;
+drop policy if exists "ratings_select_own" on public.ratings;
+drop policy if exists "ratings_insert_own" on public.ratings;
+drop policy if exists "ratings_update_own" on public.ratings;
+drop policy if exists "favorites_select_own" on public.favorites;
+drop policy if exists "favorites_insert_own" on public.favorites;
+drop policy if exists "favorites_delete_own" on public.favorites;
+
 create policy "profiles_select_own"
 on public.profiles for select
 using (auth.uid() = id);
@@ -74,10 +89,10 @@ on public.movies for select
 to authenticated
 using (true);
 
-create policy "ratings_select_all_authenticated"
+create policy "ratings_select_own"
 on public.ratings for select
 to authenticated
-using (true);
+using (auth.uid() = user_id);
 
 create policy "ratings_insert_own"
 on public.ratings for insert
@@ -87,7 +102,8 @@ with check (auth.uid() = user_id);
 create policy "ratings_update_own"
 on public.ratings for update
 to authenticated
-using (auth.uid() = user_id);
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
 
 create policy "favorites_select_own"
 on public.favorites for select
@@ -103,6 +119,11 @@ create policy "favorites_delete_own"
 on public.favorites for delete
 to authenticated
 using (auth.uid() = user_id);
+
+create index if not exists ratings_user_id_idx on public.ratings(user_id);
+create index if not exists ratings_movie_id_idx on public.ratings(movie_id);
+create index if not exists favorites_user_id_idx on public.favorites(user_id);
+create index if not exists favorites_movie_id_idx on public.favorites(movie_id);
 
 insert into public.movies (title, genre, year, description, image)
 values

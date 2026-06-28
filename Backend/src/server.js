@@ -1,7 +1,6 @@
 import cors from "cors";
 import "dotenv/config";
 import express from "express";
-import { sampleFavorites, sampleMovies, sampleRatings } from "./data/movies.js";
 import { requireAuth } from "./middleware/auth.js";
 import { loginUser, registerUser } from "./services/auth.js";
 import {
@@ -9,12 +8,14 @@ import {
   countMovieRatings,
   getFavoritesByUser,
   getMovieRatingsByUser,
+  importMovie,
   listMovies,
   listRatings,
   removeFavorite,
   saveRating,
 } from "./services/repository.js";
 import { recommendMoviesByUsers } from "./services/knn.js";
+import { searchTmdbMovies } from "./services/tmdb.js";
 
 const app = express();
 const port = process.env.PORT || 3333;
@@ -108,6 +109,30 @@ app.get("/api/movies", async (_request, response) => {
   );
 });
 
+app.get("/api/tmdb/search", requireAuth, async (request, response) => {
+  const query = String(request.query.query || "").trim();
+
+  if (query.length < 2) {
+    return response.status(400).json({ message: "Digite pelo menos 2 caracteres para buscar." });
+  }
+
+  try {
+    const movies = await searchTmdbMovies(query);
+    return response.json(movies);
+  } catch (error) {
+    return response.status(error.status || 500).json({ message: error.message });
+  }
+});
+
+app.post("/api/movies/import-tmdb", requireAuth, async (request, response) => {
+  try {
+    const movie = await importMovie(request.body.movie);
+    return response.status(201).json(movie);
+  } catch (error) {
+    return response.status(400).json({ message: error.message });
+  }
+});
+
 app.post("/api/favorites", requireAuth, async (request, response) => {
   const { movieId } = request.body;
 
@@ -163,12 +188,6 @@ app.get("/api/recommendations", requireAuth, async (request, response) => {
 
   response.json(recommendations);
 });
-
-if (process.env.NODE_ENV !== "production") {
-  console.log(
-    `Demo data: ${sampleMovies.length} filmes, ${sampleRatings.length} avaliacoes, ${sampleFavorites.length} favoritos.`,
-  );
-}
 
 app.listen(port, () => {
   console.log(`CineMatch API running on http://localhost:${port}`);

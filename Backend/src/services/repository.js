@@ -1,12 +1,13 @@
-import { sampleFavorites, sampleMovies, sampleRatings } from "../data/movies.js";
 import { isSupabaseConfigured, supabaseAdmin } from "./supabase.js";
 
-const demoFavorites = [...sampleFavorites];
-const demoRatings = [...sampleRatings];
+const memoryMovies = [];
+const memoryFavorites = [];
+const memoryRatings = [];
 
 function toMovie(row) {
   return {
     id: row.id,
+    tmdbId: row.tmdb_id || row.tmdbId,
     title: row.title || row.titulo,
     genre: row.genre || row.genero,
     year: row.year || row.ano,
@@ -35,22 +36,65 @@ function toFavorite(row) {
 
 export async function listMovies() {
   if (!isSupabaseConfigured) {
-    return sampleMovies;
+    return memoryMovies;
   }
 
   const { data, error } = await supabaseAdmin.from("movies").select("*").order("title");
 
   if (error) {
     console.error("Erro ao listar filmes:", error.message);
-    return sampleMovies;
+    return [];
   }
 
   return data.map(toMovie);
 }
 
+export async function importMovie(movie) {
+  if (!movie?.tmdbId || !movie?.title) {
+    throw new Error("Dados do filme do TMDB invalidos.");
+  }
+
+  if (!isSupabaseConfigured) {
+    const existing = memoryMovies.find((item) => Number(item.tmdbId) === Number(movie.tmdbId));
+
+    if (existing) {
+      return existing;
+    }
+
+    const newMovie = {
+      id: memoryMovies.length + 1,
+      ...movie,
+    };
+    memoryMovies.push(newMovie);
+    return newMovie;
+  }
+
+  const { data, error } = await supabaseAdmin
+    .from("movies")
+    .upsert(
+      {
+        tmdb_id: movie.tmdbId,
+        title: movie.title,
+        genre: movie.genre,
+        year: movie.year,
+        description: movie.description,
+        image: movie.image,
+      },
+      { onConflict: "tmdb_id" },
+    )
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return toMovie(data);
+}
+
 export async function listRatings() {
   if (!isSupabaseConfigured) {
-    return demoRatings;
+    return memoryRatings;
   }
 
   const { data, error } = await supabaseAdmin.from("ratings").select("*");
@@ -64,13 +108,17 @@ export async function listRatings() {
 }
 
 export async function getMovieRatingsByUser(userId) {
+  if (!userId) {
+    return [];
+  }
+
   if (!isSupabaseConfigured) {
-    return demoRatings.filter((rating) => rating.userId === userId);
+    return memoryRatings.filter((rating) => rating.userId === userId);
   }
 
   const { data, error } = await supabaseAdmin
     .from("ratings")
-    .select("*")
+    .select("id,user_id,movie_id,rating,rated_at")
     .eq("user_id", userId);
 
   if (error) {
@@ -94,13 +142,17 @@ export async function countMovieRatings() {
 }
 
 export async function getFavoritesByUser(userId) {
+  if (!userId) {
+    return [];
+  }
+
   if (!isSupabaseConfigured) {
-    return demoFavorites.filter((favorite) => favorite.userId === userId);
+    return memoryFavorites.filter((favorite) => favorite.userId === userId);
   }
 
   const { data, error } = await supabaseAdmin
     .from("favorites")
-    .select("*")
+    .select("id,user_id,movie_id")
     .eq("user_id", userId);
 
   if (error) {
@@ -123,8 +175,8 @@ export async function addFavorite({ userId, movieId }) {
   }
 
   if (!isSupabaseConfigured) {
-    demoFavorites.push({
-      id: demoFavorites.length + 1,
+    memoryFavorites.push({
+      id: memoryFavorites.length + 1,
       userId,
       movieId,
     });
@@ -145,12 +197,12 @@ export async function addFavorite({ userId, movieId }) {
 
 export async function removeFavorite({ userId, movieId }) {
   if (!isSupabaseConfigured) {
-    const index = demoFavorites.findIndex(
+    const index = memoryFavorites.findIndex(
       (favorite) => favorite.userId === userId && Number(favorite.movieId) === movieId,
     );
 
     if (index >= 0) {
-      demoFavorites.splice(index, 1);
+      memoryFavorites.splice(index, 1);
     }
 
     return getFavoritesByUser(userId);
@@ -167,7 +219,7 @@ export async function removeFavorite({ userId, movieId }) {
 
 export async function saveRating({ userId, movieId, rating }) {
   if (!isSupabaseConfigured) {
-    const existing = demoRatings.find(
+    const existing = memoryRatings.find(
       (item) => item.userId === userId && Number(item.movieId) === movieId,
     );
 
@@ -178,13 +230,13 @@ export async function saveRating({ userId, movieId, rating }) {
     }
 
     const newRating = {
-      id: demoRatings.length + 1,
+      id: memoryRatings.length + 1,
       userId,
       movieId,
       rating,
       ratedAt: new Date().toISOString(),
     };
-    demoRatings.push(newRating);
+    memoryRatings.push(newRating);
     return newRating;
   }
 

@@ -47,3 +47,17 @@ Sem Supabase configurado, o backend roda com dados de demonstração. Use:
 ## Supabase
 
 Execute o SQL em [Backend/supabase/schema.sql](Backend/supabase/schema.sql) no editor SQL do Supabase.
+
+## TMDB
+
+O CineMatch tambem pode buscar filmes no The Movie Database.
+
+1. Crie uma conta no TMDB.
+2. No painel da sua conta, va em API e gere o **API Read Access Token**.
+3. Adicione no `Backend/.env`:
+
+```env
+TMDB_READ_ACCESS_TOKEN=cole_o_token_aqui
+```
+
+Depois reinicie o backend. A busca aparece no frontend como **Buscar no TMDB**.

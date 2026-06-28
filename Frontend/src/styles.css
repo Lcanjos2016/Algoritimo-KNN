@@ -259,7 +259,8 @@ input {
 }
 
 .movie-grid,
-.recommendation-list {
+.recommendation-list,
+.tmdb-results {
   display: grid;
   gap: 12px;
 }
@@ -268,26 +269,92 @@ input {
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
 }
 
+.tmdb-search {
+  margin-bottom: 24px;
+}
+
+.search-form {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  margin-bottom: 12px;
+}
+
+.tmdb-results {
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+}
+
+.tmdb-result {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #dfe5ec;
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 48px 1fr 38px;
+  min-height: 76px;
+  padding: 8px;
+}
+
+.tmdb-result img {
+  background: #eef2f6;
+  border-radius: 6px;
+  height: 60px;
+  object-fit: contain;
+  width: 48px;
+}
+
+.tmdb-result h3 {
+  font-size: 0.95rem;
+  margin: 0 0 4px;
+}
+
+.tmdb-result p {
+  color: #687386;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  margin: 0;
+}
+
 .movie-card {
   background: #ffffff;
   border: 1px solid #dfe5ec;
   border-radius: 8px;
   display: grid;
-  grid-template-columns: 86px 1fr 44px;
-  min-height: 166px;
+  grid-template-columns: 104px 1fr 44px;
+  min-height: 188px;
   overflow: hidden;
   position: relative;
 }
 
 .recommendation-list .movie-card {
-  grid-template-columns: 76px 1fr;
+  grid-template-columns: 96px 1fr;
 }
 
 .movie-card img {
-  height: 100%;
-  min-height: 166px;
-  object-fit: cover;
+  align-self: stretch;
+  aspect-ratio: 2 / 3;
+  background: #eef2f6;
+  height: auto;
+  object-fit: contain;
   width: 100%;
+}
+
+.empty-state {
+  background: #ffffff;
+  border: 1px dashed #cdd7e2;
+  border-radius: 8px;
+  grid-column: 1 / -1;
+  padding: 24px;
+}
+
+.empty-state h3 {
+  margin: 0 0 8px;
+}
+
+.empty-state p {
+  color: #657084;
+  margin: 0;
 }
 
 .movie-info {
@@ -447,8 +514,12 @@ aside {
     grid-template-columns: 1fr;
   }
 
+  .search-form {
+    grid-template-columns: 1fr;
+  }
+
   .movie-card {
-    grid-template-columns: 78px 1fr 42px;
+    grid-template-columns: 94px 1fr 42px;
   }
 
   .topbar {

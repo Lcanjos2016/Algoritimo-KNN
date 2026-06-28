@@ -5,6 +5,8 @@ import {
   Heart,
   Loader2,
   LogOut,
+  Plus,
+  Search,
   Sparkles,
   Star,
   UserRound,
@@ -222,6 +224,87 @@ function MovieCard({
   );
 }
 
+function TmdbSearch({ onImport, token }) {
+  const [query, setQuery] = React.useState("");
+  const [results, setResults] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+
+  async function searchMovies(event) {
+    event.preventDefault();
+
+    if (query.trim().length < 2) {
+      setMessage("Digite pelo menos 2 caracteres.");
+      return;
+    }
+
+    setLoading(true);
+    setMessage("");
+
+    try {
+      const data = await apiFetch(
+        `/api/tmdb/search?query=${encodeURIComponent(query.trim())}`,
+        {},
+        token,
+      );
+      setResults(data);
+
+      if (data.length === 0) {
+        setMessage("Nenhum filme encontrado.");
+      }
+    } catch (caughtError) {
+      setMessage(caughtError.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <section className="tmdb-search">
+      <div className="section-heading">
+        <h2>Buscar no TMDB</h2>
+        <span>catalogo externo</span>
+      </div>
+
+      <form className="search-form" onSubmit={searchMovies}>
+        <input
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="Ex: Batman, Avatar, Shrek"
+          value={query}
+        />
+        <button className="primary-action" disabled={loading} type="submit">
+          {loading ? <Loader2 className="spin" size={18} /> : <Search size={18} />}
+          Buscar
+        </button>
+      </form>
+
+      {message && <p className="muted">{message}</p>}
+
+      {results.length > 0 && (
+        <div className="tmdb-results">
+          {results.map((movie) => (
+            <article className="tmdb-result" key={movie.tmdbId}>
+              <img src={movie.image} alt={`Poster de ${movie.title}`} />
+              <div>
+                <h3>{movie.title}</h3>
+                <p>{movie.year} | {movie.genre}</p>
+              </div>
+              <button
+                aria-label={`Importar ${movie.title}`}
+                className="icon-action"
+                onClick={() => onImport(movie)}
+                type="button"
+              >
+                <Plus size={18} />
+              </button>
+            </article>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
 function App() {
   const { session, saveSession, clearSession } = useSession();
   const [movies, setMovies] = React.useState([]);
@@ -310,6 +393,22 @@ function App() {
     }
   }
 
+  async function importTmdbMovie(movie) {
+    try {
+      await apiFetch(
+        "/api/movies/import-tmdb",
+        {
+          method: "POST",
+          body: JSON.stringify({ movie }),
+        },
+        token,
+      );
+      await loadDashboard();
+    } catch (caughtError) {
+      setError(caughtError.message);
+    }
+  }
+
   if (!session) {
     return <AuthPanel onAuthenticated={saveSession} />;
   }
@@ -366,22 +465,31 @@ function App() {
 
       <section className="content-grid">
         <div>
+          <TmdbSearch onImport={importTmdbMovie} token={token} />
+
           <div className="section-heading">
             <h2>Filmes</h2>
             <span>0 a 5 estrelas</span>
           </div>
 
           <div className="movie-grid">
-            {movies.map((movie) => (
-              <MovieCard
-                favorite={favoriteMovieIds.has(Number(movie.id))}
-                key={movie.id}
-                movie={movie}
-                onFavorite={() => toggleFavorite(movie.id)}
-                onRate={(rating) => rateMovie(movie.id, rating)}
-                rating={ratingsByMovie.get(Number(movie.id))}
-              />
-            ))}
+            {movies.length === 0 ? (
+              <div className="empty-state">
+                <h3>Nenhum filme no catalogo</h3>
+                <p>Busque filmes no TMDB e importe para comecar a avaliar.</p>
+              </div>
+            ) : (
+              movies.map((movie) => (
+                <MovieCard
+                  favorite={favoriteMovieIds.has(Number(movie.id))}
+                  key={movie.id}
+                  movie={movie}
+                  onFavorite={() => toggleFavorite(movie.id)}
+                  onRate={(rating) => rateMovie(movie.id, rating)}
+                  rating={ratingsByMovie.get(Number(movie.id))}
+                />
+              ))
+            )}
           </div>
         </div>
 
