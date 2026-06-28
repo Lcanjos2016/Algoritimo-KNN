@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "main": "server.js",
   "workspaces": [
     "Frontend",
     "Backend"
   ],
   "scripts": {
     "build": "npm --workspace Frontend run build",
-    "start": "npm --workspace Backend start"
+    "start": "node server.js"
   }
 }
