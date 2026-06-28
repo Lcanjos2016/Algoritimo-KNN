@@ -1,7 +1,7 @@
 
 # Frontend CineMatch
 
-Interface React para cadastro/login, perfil, favoritos, avaliacoes e recomendacoes do backend KNN.
+Interface React para cadastro/login, perfil, favoritos, avaliações e recomendações do backend KNN.
 
 ## Como rodar
 
@@ -10,4 +10,4 @@ npm install
 npm run dev
 ```
 
-Por padrao, o frontend chama a API em `http://localhost:3335`.
+Por padrão, o frontend chama a API em `http://localhost:3335`.

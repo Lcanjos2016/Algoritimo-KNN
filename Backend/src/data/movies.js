@@ -4,7 +4,7 @@ export const sampleMovies = [
     title: "Interestelar",
     year: 2014,
     genre: "sci-fi, drama, adventure",
-    description: "Uma equipe cruza o espaco em busca de um novo lar para a humanidade.",
+    description: "Uma equipe cruza o espaço em busca de um novo lar para a humanidade.",
     image: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
   },
   {
@@ -12,7 +12,7 @@ export const sampleMovies = [
     title: "A Origem",
     year: 2010,
     genre: "sci-fi, action, thriller",
-    description: "Um ladrao invade sonhos para roubar segredos e recebe uma missao impossivel.",
+    description: "Um ladrão invade sonhos para roubar segredos e recebe uma missão impossível.",
     image: "https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg",
   },
   {
@@ -28,7 +28,7 @@ export const sampleMovies = [
     title: "O Poderoso Chefao",
     year: 1972,
     genre: "crime, drama",
-    description: "A saga de uma familia mafiosa entre poder, lealdade e violencia.",
+    description: "A saga de uma família mafiosa entre poder, lealdade e violência.",
     image: "https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg",
   },
   {
@@ -36,7 +36,7 @@ export const sampleMovies = [
     title: "Matrix",
     year: 1999,
     genre: "sci-fi, action",
-    description: "Um programador descobre que a realidade e uma simulacao controlada.",
+    description: "Um programador descobre que a realidade é uma simulação controlada.",
     image: "https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
   },
   {
@@ -44,7 +44,7 @@ export const sampleMovies = [
     title: "Parasita",
     year: 2019,
     genre: "drama, thriller, comedy",
-    description: "Duas familias de classes sociais opostas entram em uma relacao instavel.",
+    description: "Duas famílias de classes sociais opostas entram em uma relação instável.",
     image: "https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg",
   },
   {
@@ -60,7 +60,7 @@ export const sampleMovies = [
     title: "La La Land",
     year: 2016,
     genre: "romance, drama, music",
-    description: "Uma atriz e um musico tentam equilibrar amor e ambicao em Los Angeles.",
+    description: "Uma atriz e um músico tentam equilibrar amor e ambição em Los Angeles.",
     image: "https://image.tmdb.org/t/p/w500/uDO8zWDhfWwoFdKS4fzkUJt0Rf0.jpg",
   },
   {
@@ -76,7 +76,7 @@ export const sampleMovies = [
     title: "Toy Story",
     year: 1995,
     genre: "animation, adventure, comedy",
-    description: "Brinquedos ganham vida quando os humanos nao estao olhando.",
+    description: "Brinquedos ganham vida quando os humanos nao estão olhando.",
     image: "https://image.tmdb.org/t/p/w500/uXDfjJbdP4ijW5hWSBrPrlKpxab.jpg",
   },
 ];

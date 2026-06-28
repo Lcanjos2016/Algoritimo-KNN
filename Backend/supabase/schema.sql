@@ -106,14 +106,14 @@ using (auth.uid() = user_id);
 
 insert into public.movies (title, genre, year, description, image)
 values
-  ('Interestelar', 'sci-fi, drama, adventure', 2014, 'Uma equipe cruza o espaco em busca de um novo lar para a humanidade.', 'https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg'),
-  ('A Origem', 'sci-fi, action, thriller', 2010, 'Um ladrao invade sonhos para roubar segredos e recebe uma missao impossivel.', 'https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg'),
+  ('Interestelar', 'sci-fi, drama, adventure', 2014, 'Uma equipe cruza o espaço em busca de um novo lar para a humanidade.', 'https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg'),
+  ('A Origem', 'sci-fi, action, thriller', 2010, 'Um ladrão invade sonhos para roubar segredos e recebe uma missão impossível.', 'https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg'),
   ('Clube da Luta', 'drama, thriller', 1999, 'Um homem insatisfeito encontra uma forma perigosa de extravasar sua vida vazia.', 'https://image.tmdb.org/t/p/w500/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg'),
-  ('O Poderoso Chefao', 'crime, drama', 1972, 'A saga de uma familia mafiosa entre poder, lealdade e violencia.', 'https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg'),
-  ('Matrix', 'sci-fi, action', 1999, 'Um programador descobre que a realidade e uma simulacao controlada.', 'https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg'),
-  ('Parasita', 'drama, thriller, comedy', 2019, 'Duas familias de classes sociais opostas entram em uma relacao instavel.', 'https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg'),
+  ('O Poderoso Chefao', 'crime, drama', 1972, 'A saga de uma família mafiosa entre poder, lealdade e violência.', 'https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg'),
+  ('Matrix', 'sci-fi, action', 1999, 'Um programador descobre que a realidade é uma simulação controlada.', 'https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg'),
+  ('Parasita', 'drama, thriller, comedy', 2019, 'Duas famílias de classes sociais opostas entram em uma relação instável.', 'https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg'),
   ('Mad Max: Estrada da Furia', 'action, adventure', 2015, 'Furiosa e Max atravessam o deserto fugindo de um tirano.', 'https://image.tmdb.org/t/p/w500/hA2ple9q4qnwxp3hKVNhroipsir.jpg'),
-  ('La La Land', 'romance, drama, music', 2016, 'Uma atriz e um musico tentam equilibrar amor e ambicao em Los Angeles.', 'https://image.tmdb.org/t/p/w500/uDO8zWDhfWwoFdKS4fzkUJt0Rf0.jpg'),
+  ('La La Land', 'romance, drama, music', 2016, 'Uma atriz e um músico tentam equilibrar amor e ambição em Los Angeles.', 'https://image.tmdb.org/t/p/w500/uDO8zWDhfWwoFdKS4fzkUJt0Rf0.jpg'),
   ('Whiplash', 'drama, music', 2014, 'Um baterista promissor enfrenta um professor obsessivo e abusivo.', 'https://image.tmdb.org/t/p/w500/7fn624j5lj3xTme2SgiLCeuedmO.jpg'),
-  ('Toy Story', 'animation, adventure, comedy', 1995, 'Brinquedos ganham vida quando os humanos nao estao olhando.', 'https://image.tmdb.org/t/p/w500/uXDfjJbdP4ijW5hWSBrPrlKpxab.jpg')
+  ('Toy Story', 'animation, adventure, comedy', 1995, 'Brinquedos ganham vida quando os humanos nao estão olhando.', 'https://image.tmdb.org/t/p/w500/uXDfjJbdP4ijW5hWSBrPrlKpxab.jpg')
 on conflict do nothing;

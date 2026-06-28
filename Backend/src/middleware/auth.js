@@ -5,7 +5,7 @@ export async function requireAuth(request, response, next) {
   const user = await getUserFromToken(token);
 
   if (!user) {
-    return response.status(401).json({ message: "Autenticacao obrigatoria." });
+    return response.status(401).json({ message: "Autenticação obrigatória." });
   }
 
   request.user = user;

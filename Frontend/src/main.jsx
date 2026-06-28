@@ -100,10 +100,10 @@ function AuthPanel({ onAuthenticated }) {
           <Film size={20} />
           CineMatch
         </span>
-        <h1>Recomendacoes de filmes com KNN</h1>
+        <h1>Recomendações de filmes com KNN</h1>
         <p>
-          Avalie filmes, salve favoritos e descubra sugestoes baseadas em
-          usuarios com gostos parecidos.
+          Avalie filmes, salve favoritos e descubra sugestões baseadas em
+          usuários com gostos parecidos!
         </p>
       </div>
 
@@ -203,7 +203,7 @@ function MovieCard({
         </div>
         <p className="description">{movie.description}</p>
         <div className="movie-meta">
-          <span>{movie.ratingCount || 0} avaliacoes</span>
+          <span>{movie.ratingCount || 0} avaliações</span>
           {recommendationScore && <strong>{recommendationScore}/5</strong>}
         </div>
         {onRate && <Stars onRate={onRate} value={rating ?? null} />}
@@ -335,10 +335,10 @@ function App() {
 
       <section className="hero dashboard-hero">
         <div>
-          <h1>Seu perfil cinematografico</h1>
+          <h1>Seu perfil cinematográfico</h1>
           <p>
-            Favoritos guardam suas preferencias principais. As estrelas alimentam
-            o KNN colaborativo para encontrar usuarios semelhantes.
+            Favoritos guardam suas preferências principais. As estrelas alimentam
+            o KNN colaborativo para encontrar usuários semelhantes.
           </p>
         </div>
         <button className="primary-action" disabled={loading} onClick={loadDashboard} type="button">
@@ -352,15 +352,15 @@ function App() {
       <section className="stats-row">
         <div>
           <strong>{favorites.length}/5</strong>
-          <span>favoritos</span>
+          <span>Favoritos</span>
         </div>
         <div>
           <strong>{ratings.length}</strong>
-          <span>avaliacoes feitas</span>
+          <span>Avaliações feitas</span>
         </div>
         <div>
           <strong>{recommendations.length}</strong>
-          <span>recomendacoes</span>
+          <span>Recomendações</span>
         </div>
       </section>
 
@@ -387,14 +387,14 @@ function App() {
 
         <aside>
           <div className="section-heading">
-            <h2>Recomendacoes</h2>
-            <span>KNN usuarios</span>
+            <h2>Recomendações</h2>
+            <span>KNN usuários</span>
           </div>
 
           <div className="panel">
             {recommendations.length === 0 ? (
               <p className="muted">
-                Avalie pelo menos dois filmes para melhorar as recomendacoes.
+                Avalie pelo menos dois filmes para melhorar as recomendações.
               </p>
             ) : (
               <div className="recommendation-list">
