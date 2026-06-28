@@ -189,6 +189,10 @@ app.get("/api/recommendations", requireAuth, async (request, response) => {
   response.json(recommendations);
 });
 
-app.listen(port, () => {
-  console.log(`CineMatch API running on http://localhost:${port}`);
-});
+if (!process.env.VERCEL) {
+  app.listen(port, () => {
+    console.log(`CineMatch API running on http://localhost:${port}`);
+  });
+}
+
+export default app;

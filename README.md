@@ -61,3 +61,18 @@ TMDB_READ_ACCESS_TOKEN=cole_o_token_aqui
 ```
 
 Depois reinicie o backend. A busca aparece no frontend como **Buscar no TMDB**.
+
+## Deploy no Vercel
+
+O projeto tem `vercel.json`, `api/index.js` e `package.json` na raiz para publicar frontend e API juntos.
+
+No painel do Vercel, configure as variaveis de ambiente:
+
+```env
+SUPABASE_URL=...
+SUPABASE_ANON_KEY=...
+SUPABASE_SERVICE_ROLE_KEY=...
+TMDB_READ_ACCESS_TOKEN=...
+```
+
+No deploy, o frontend chama a API pelo mesmo dominio usando `/api`.

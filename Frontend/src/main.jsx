@@ -13,7 +13,9 @@ import {
 } from "lucide-react";
 import "./styles.css";
 
-const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3335";
+const apiUrl =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD ? "" : "http://localhost:3335");
 const ratingLabels = ["muito ruim", "ruim", "regular", "bom", "muito bom", "excelente"];
 
 function useSession() {

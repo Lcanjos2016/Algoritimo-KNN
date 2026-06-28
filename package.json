@@ -1,0 +1,14 @@
+{
+  "name": "cinematch",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "Frontend",
+    "Backend"
+  ],
+  "scripts": {
+    "build": "npm --workspace Frontend run build",
+    "start": "npm --workspace Backend start"
+  }
+}
